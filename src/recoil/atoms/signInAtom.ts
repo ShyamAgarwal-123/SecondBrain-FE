@@ -1,12 +1,11 @@
-import { atom, RecoilState } from "recoil";
+import { atom, type RecoilState } from "recoil";
 import type { IUserAtom } from "./userAtom";
 
-export type SignInAtomTypes = Pick<IUserAtom, "username" | "email"> & {
+export type SignInAtomTypes = Pick<IUserAtom, "email"> & {
   password: string;
 };
 
 export const signInDefault: SignInAtomTypes = {
-  username: "",
   email: "",
   password: "",
 };

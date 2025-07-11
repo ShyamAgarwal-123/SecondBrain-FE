@@ -11,6 +11,7 @@ export interface ButtonProps
   endIcon?: ReactElement<{ size: SizeTypes }>;
   onClick?: () => void;
   children: ReactNode;
+  loading?: boolean;
 }
 
 export const buttonVariants: Record<VariantsTypes, string> = {
@@ -33,17 +34,27 @@ const Button = ({
   className,
   onClick,
   children,
+  loading = false,
 }: ButtonProps) => {
   return (
     <button
-      className={`${buttonVariants[variant]} ${buttonSize[size]} ${defaultVarient} ${className}`}
+      className={`${buttonVariants[variant]} ${buttonSize[size]} ${defaultVarient} ${className} `}
       onClick={onClick}
+      disabled={loading}
     >
-      {startIcon ? (
-        <span>{React.cloneElement(startIcon, { size })}</span>
-      ) : null}
-      <span>{children}</span>
-      {endIcon ? <span>{React.cloneElement(endIcon, { size })}</span> : null}
+      {loading ? (
+        <span className="animate-spin border-2 border-t-transparent border-white rounded-full w-5 h-5"></span>
+      ) : (
+        <>
+          {startIcon ? (
+            <span>{React.cloneElement(startIcon, { size })}</span>
+          ) : null}
+          <span>{children}</span>
+          {endIcon ? (
+            <span>{React.cloneElement(endIcon, { size })}</span>
+          ) : null}
+        </>
+      )}
     </button>
   );
 };
