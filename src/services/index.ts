@@ -1,11 +1,17 @@
 import { axiosInstanceWithAuth } from "../api";
+import type { ContentFormStateType } from "../recoil/atoms/contentFormAtom";
 import type { SignInAtomTypes } from "../recoil/atoms/signInAtom";
 import type { SignUpAtomTypes } from "../recoil/atoms/signUpAtom";
+import type { ResponseType } from "../types";
 
 const errorHandler = (error: any) => {
   if (error?.response?.data) {
+    //this error is due to something other than AccesTokenR error
     return error.response.data;
   }
+  //this error is coming form promise.reject(refreshMainData)
+  console.log(error);
+
   return error;
 };
 
@@ -49,7 +55,32 @@ export const getUserService = async () => {
     const { data } = await axiosInstanceWithAuth.get("/user/getuser");
     return data;
   } catch (error: any) {
-    const data = errorHandler(error);
+    const data: ResponseType = errorHandler(error);
+    throw data;
+  }
+};
+
+export const uploadContentService = async (
+  contentForm: ContentFormStateType
+) => {
+  try {
+    const { data } = await axiosInstanceWithAuth.post(
+      "/content/create",
+      contentForm
+    );
     return data;
+  } catch (error) {
+    const data: ResponseType = errorHandler(error);
+    throw data;
+  }
+};
+
+export const getAllContentsService = async () => {
+  try {
+    const { data } = await axiosInstanceWithAuth.get("/content/getAll");
+    return data;
+  } catch (error) {
+    const data: ResponseType = errorHandler(error);
+    throw data;
   }
 };

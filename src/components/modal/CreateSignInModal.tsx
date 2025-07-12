@@ -7,12 +7,13 @@ import { signInDefault } from "../../recoil/atoms/signInAtom";
 import useUser from "../../hooks/useUser";
 import type { IGetUser } from "../../hooks/useUserAuth";
 import { defaultUser } from "../../recoil/atoms/userAtom";
+import useAllContent from "../../hooks/useAllContent";
 
 const CreateSignInModal = () => {
   const { signIn, onChange, setSignIn } = useSignIn();
   const { setUser } = useUser();
   const [loading, setLoading] = useState(false);
-
+  const { fetchAllContent } = useAllContent();
   const onSubmit = async () => {
     setLoading(true);
     await new Promise((res, rej) => {
@@ -26,6 +27,7 @@ const CreateSignInModal = () => {
         authenticated: true,
       });
       setSignIn(signInDefault);
+      fetchAllContent();
     } else {
       setUser(defaultUser);
     }

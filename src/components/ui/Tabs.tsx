@@ -2,7 +2,6 @@ import Button from "./Button";
 import CreateSignUpModal from "../modal/CreateSignUpModal";
 import CreateSignInModal from "../modal/CreateSignInModal";
 import { useState } from "react";
-import useUser from "../../hooks/useUser";
 import useUserAuth from "../../hooks/useUserAuth";
 
 const Tabs = () => {
@@ -12,7 +11,7 @@ const Tabs = () => {
   return (
     !user.authenticated &&
     !loading && (
-      <div className="w-screen h-screen fixed top-0 left-0 opacity-50 bg-slate-500 flex justify-center items-center">
+      <div className="w-screen h-screen fixed top-0 left-0 opacity-60 bg-slate-500 flex justify-center items-center">
         <div className="bg-blue-200 p-4 flex flex-col gap-2 rounded-2xl items-center">
           <div className="flex flex-row gap-3 p-3">
             <Button

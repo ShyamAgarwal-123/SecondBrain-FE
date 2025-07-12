@@ -5,7 +5,7 @@ import YoutubeView from "./YoutubeView";
 const ContentView = ({ type, link }: Omit<CardProps, "title">) => {
   return (
     <div>
-      {type === "twitter" && <TwitterView link={link} />}
+      {type === "tweet" && <TwitterView link={link} />}
       {type === "youtube" && <YoutubeView link={link} />}
     </div>
   );

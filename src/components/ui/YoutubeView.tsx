@@ -15,3 +15,6 @@ const YoutubeView = ({ link }: Pick<CardProps, "link">) => {
 };
 
 export default YoutubeView;
+//"https://www.youtube.com/embed/jp06g8Vkq3w?si=TDuUSTPc6igdtUJt"
+
+//https://youtu.be/jp06g8Vkq3w?si=HscDak7KTuv0Pxbu
