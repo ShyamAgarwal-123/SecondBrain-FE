@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUserService } from "../services";
 import type { ResponseType } from "../types";
 import useUser from "./useUser";
@@ -28,12 +28,10 @@ const useUserAuth = () => {
       setLoading(true);
       const data: IGetUser = await getUserService();
       if (data?.success) {
-        setUser((prev) => {
-          return {
-            email: data?.data.email,
-            username: data?.data?.username,
-            authenticated: true,
-          };
+        setUser({
+          email: data?.data.email,
+          username: data?.data?.username,
+          authenticated: true,
         });
       } else setUser(defaultUser);
       setFetched(true);

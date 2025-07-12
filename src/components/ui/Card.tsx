@@ -1,13 +1,16 @@
+import useAllContent from "../../hooks/useAllContent";
+import useUserAuth from "../../hooks/useUserAuth";
 import DeleteIcon from "../../icons/DeleteIcon";
 import DocumentIcon from "../../icons/DocumentIcon";
 import LinkIcon from "../../icons/LinkIcon";
 import ShareIcon from "../../icons/ShareIcon";
 import TwitterIcon from "../../icons/TwitterIcon";
 import YoutubeIcon from "../../icons/YoutubeIcon";
-import type { ContentType } from "../../types";
+import { deleteContentService } from "../../services";
+import type { ContentType, ResponseType } from "../../types";
 import ContentView from "./ContentView";
 
-export type CardProps = Pick<ContentType, "link" | "title" | "type">;
+export type CardProps = Pick<ContentType, "link" | "title" | "type" | "_id">;
 
 function IconRender(type: string) {
   switch (type) {
@@ -24,7 +27,30 @@ function IconRender(type: string) {
   }
 }
 
-const Card = ({ title, link, type }: CardProps) => {
+const Card = ({ title, link, type, _id }: CardProps) => {
+  const { setAllContent } = useAllContent();
+  const { fetchUser } = useUserAuth();
+  async function onDelete() {
+    try {
+      const data: ResponseType = await deleteContentService(_id);
+      if (data.success) {
+        setAllContent((prev) => {
+          const contents = prev.contents;
+          let updatedContents = contents.filter(
+            (content) => content._id !== _id
+          );
+          console.log(updatedContents);
+          return { ...prev, contents: updatedContents };
+        });
+      }
+    } catch (data: any) {
+      if (data?.success) {
+        onDelete();
+      } else if (!data?.success && data?.message === "Refresh Token Required") {
+        fetchUser();
+      }
+    }
+  }
   return (
     <div className="bg-white rounded-md border-2 border-gray-100 max-w-72 p-4 flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -34,7 +60,7 @@ const Card = ({ title, link, type }: CardProps) => {
         </div>
         <div className="flex space-x-4 items-center text-gray-400">
           <ShareIcon size="md" />
-          <DeleteIcon />
+          <DeleteIcon onClick={onDelete} className="cursor-pointer" />
         </div>
       </div>
       <ContentView link={link} type={type} />

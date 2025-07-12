@@ -9,7 +9,7 @@ import { SkeletonLoader } from "./skeleton";
 
 const BrainSide = () => {
   const { setContentForm } = useContentForm();
-  const { allContent, setAllContent } = useAllContent();
+  const { allContent } = useAllContent();
   const { user } = useUser();
   return (
     <div
@@ -57,6 +57,7 @@ const BrainSide = () => {
                   link={content.link}
                   type={content.type as "tweet" | "youtube"}
                   title={content.title}
+                  _id={content._id}
                 />
               ))}
           </div>

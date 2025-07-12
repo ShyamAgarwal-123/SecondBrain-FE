@@ -84,3 +84,17 @@ export const getAllContentsService = async () => {
     throw data;
   }
 };
+
+export const deleteContentService = async (contentId: string) => {
+  try {
+    console.log(contentId);
+
+    const { data } = await axiosInstanceWithAuth.delete(
+      `/content/delete/${contentId}`
+    );
+    return data;
+  } catch (error) {
+    const data: ResponseType = errorHandler(error);
+    throw data;
+  }
+};

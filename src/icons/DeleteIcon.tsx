@@ -1,4 +1,6 @@
-const DeleteIcon = () => {
+import type { ClickableIcon } from ".";
+
+const DeleteIcon = ({ onClick, className }: ClickableIcon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +8,8 @@ const DeleteIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="size-4"
+      className={`size-4 ${className}`}
+      onClick={onClick}
     >
       <path
         strokeLinecap="round"
