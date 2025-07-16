@@ -16,7 +16,7 @@ const CreateSignInModal = () => {
   const { fetchAllContent } = useAllContent();
   const onSubmit = async () => {
     setLoading(true);
-    await new Promise((res, rej) => {
+    await new Promise((res) => {
       setTimeout(() => res(1), 2000);
     });
     const data: IGetUser = await signInService(signIn);
@@ -25,6 +25,8 @@ const CreateSignInModal = () => {
         username: data.data.username,
         email: data.data.email,
         authenticated: true,
+        loading: false,
+        hash: data.data.hash,
       });
       setSignIn(signInDefault);
       fetchAllContent();

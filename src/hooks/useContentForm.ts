@@ -21,7 +21,6 @@ const useContentForm = () => {
 
   const { fetchAllContent } = useAllContent();
   const { fetchUser } = useUserAuth();
-  const [fetched, setFetched] = useState(false);
 
   const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const type = e.target.value;

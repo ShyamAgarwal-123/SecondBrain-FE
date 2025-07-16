@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstanceWithAuth } from "../api";
 import type { ContentFormStateType } from "../recoil/atoms/contentFormAtom";
 import type { SignInAtomTypes } from "../recoil/atoms/signInAtom";
