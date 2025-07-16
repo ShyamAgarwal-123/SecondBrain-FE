@@ -3,7 +3,7 @@ import { type ResponseType } from "../types";
 import { refreshAccessTokenService } from "../services";
 
 export const axiosInstanceWithAuth = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/v1`,
   withCredentials: true,
 });
 
