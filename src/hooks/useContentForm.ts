@@ -4,7 +4,7 @@ import {
   defaultContentForm,
   type ContentFormStateType,
 } from "../recoil/atoms/contentFormAtom";
-import { useState, type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 import { uploadContentService } from "../services";
 import type { ResponseType } from "../types";
 import useAllContent from "./useAllContent";
