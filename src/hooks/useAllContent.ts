@@ -24,7 +24,7 @@ const useAllContent = () => {
     if (allContent.loading || fetched) return;
     try {
       setAllContent((prev) => ({ ...prev, loading: true }));
-      await new Promise((res, rej) => {
+      await new Promise((res) => {
         setTimeout(() => res(1), 1000);
       });
       const data: ResponseType = await getAllContentsService();

@@ -12,6 +12,7 @@ export interface IGetUser extends ResponseType {
   data: {
     username: string;
     email: string;
+    hash: string;
   };
 }
 
@@ -19,23 +20,26 @@ const useUserAuth = () => {
   const { user, setUser } = useUser();
   const { contentForm, setContentForm } = useContentFormState();
   const { allContent, setAllContent } = useAllContentState();
-  const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
 
   async function fetchUser() {
-    if (loading || fetched) return;
+    if (user.loading || fetched) return;
     try {
-      setLoading(true);
+      setUser((prev) => ({ ...prev, loading: true }));
       const data: IGetUser = await getUserService();
       if (data?.success) {
         setUser({
           email: data?.data.email,
           username: data?.data?.username,
           authenticated: true,
+          hash: data?.data?.hash,
+          loading: false,
         });
-      } else setUser(defaultUser);
-      setFetched(true);
-      setLoading(false);
+        setFetched(true);
+      } else {
+        setUser(defaultUser);
+        setFetched(false);
+      }
     } catch (data: any) {
       if (data?.success) {
         fetchUser();
@@ -51,11 +55,13 @@ const useUserAuth = () => {
         }
       }
       console.log(data);
-      setLoading(false);
+    } finally {
+      // setLoading(false);
+      setUser((prev) => ({ ...prev, loading: false }));
     }
   }
 
-  return { user, loading, fetchUser };
+  return { user, fetchUser };
 };
 
 export default useUserAuth;

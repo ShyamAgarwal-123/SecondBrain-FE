@@ -1,30 +1,25 @@
-import { useEffect } from "react";
-import CreateContentModal from "./components/modal/CreateContentModal";
-import BrainSide from "./components/ui/BrainSide";
-import SideBar from "./components/ui/SideBar";
-import Tabs from "./components/ui/Tabs";
-import useUserAuth from "./hooks/useUserAuth";
-import useAllContent from "./hooks/useAllContent";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import UserBrain from "./components/pages/UserBrain";
+import ShareBrain from "./components/pages/ShareBrain";
+import NotFoundPage from "./components/pages/NotFoundPage";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route path="" element={<UserBrain />} />
+      <Route path="/share/:shareLink" element={<ShareBrain />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Route>
+  )
+);
 
 function App() {
-  const { fetchUser } = useUserAuth();
-  const { fetchAllContent } = useAllContent();
-
-  useEffect(() => {
-    fetchUser();
-    fetchAllContent();
-  }, []);
-
-  return (
-    <div className="h-screen">
-      <Tabs />
-      <CreateContentModal />
-      <div className="flex">
-        <SideBar />
-        <BrainSide />
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

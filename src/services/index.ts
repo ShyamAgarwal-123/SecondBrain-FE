@@ -1,3 +1,4 @@
+import axios from "axios";
 import { axiosInstanceWithAuth } from "../api";
 import type { ContentFormStateType } from "../recoil/atoms/contentFormAtom";
 import type { SignInAtomTypes } from "../recoil/atoms/signInAtom";
@@ -87,8 +88,6 @@ export const getAllContentsService = async () => {
 
 export const deleteContentService = async (contentId: string) => {
   try {
-    console.log(contentId);
-
     const { data } = await axiosInstanceWithAuth.delete(
       `/content/delete/${contentId}`
     );
@@ -96,5 +95,26 @@ export const deleteContentService = async (contentId: string) => {
   } catch (error) {
     const data: ResponseType = errorHandler(error);
     throw data;
+  }
+};
+
+export const shareBrainService = async (share: boolean) => {
+  try {
+    const { data } = await axiosInstanceWithAuth.post("/public/share", {
+      share,
+    });
+    return data;
+  } catch (error) {
+    const data: ResponseType = errorHandler(error);
+    throw data;
+  }
+};
+
+export const getAllShareBrainContentService = async (shareLink: string) => {
+  try {
+    const { data } = await axiosInstanceWithAuth.get(`/public/${shareLink}`);
+    return data;
+  } catch (error) {
+    throw errorHandler(error);
   }
 };

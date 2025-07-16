@@ -1,4 +1,4 @@
-import React, { memo, type ReactElement, type ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 
 export type VariantsTypes = "primary" | "secondary";
 export type SizeTypes = "sm" | "md" | "lg";
@@ -9,7 +9,6 @@ export interface ButtonProps
   size: SizeTypes;
   startIcon?: ReactElement<{ size: SizeTypes }>;
   endIcon?: ReactElement<{ size: SizeTypes }>;
-  onClick?: () => void;
   children: ReactNode;
   loading?: boolean;
 }
