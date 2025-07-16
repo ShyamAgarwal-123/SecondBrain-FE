@@ -12,7 +12,7 @@ const CreateSignUpModal = () => {
 
   const onSubmit = async () => {
     setLoading(true);
-    await new Promise((res, rej) => {
+    await new Promise((res) => {
       setTimeout(() => res(1), 2000);
     });
     const data: ResponseType = await signUpService(signUp);
