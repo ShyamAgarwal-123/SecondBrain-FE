@@ -21,8 +21,8 @@ const useAllContent = () => {
   const [fetched, setFetched] = useState(false);
 
   async function fetchAllContent() {
-    if (allContent.loading || fetched) return;
     try {
+      if (allContent.loading || fetched) return;
       setAllContent((prev) => ({ ...prev, loading: true }));
       await new Promise((res) => {
         setTimeout(() => res(1), 1000);
@@ -40,8 +40,9 @@ const useAllContent = () => {
       } else if (!data?.success && data?.message === "Refresh Token Required") {
         fetchUser();
       }
-      setAllContent((prev) => ({ ...prev, loading: false }));
       console.log(data);
+    } finally {
+      setAllContent((prev) => ({ ...prev, loading: false }));
     }
   }
 

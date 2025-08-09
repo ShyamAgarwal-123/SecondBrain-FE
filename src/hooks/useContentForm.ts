@@ -5,7 +5,11 @@ import {
   type ContentFormStateType,
 } from "../recoil/atoms/contentFormAtom";
 import { type ChangeEvent } from "react";
-import { uploadContentService } from "../services";
+import {
+  createTagService,
+  searchTagsService,
+  uploadContentService,
+} from "../services";
 import type { ResponseType } from "../types";
 import useAllContent from "./useAllContent";
 import useUserAuth from "./useUserAuth";
@@ -22,9 +26,7 @@ const useContentForm = () => {
   const { fetchAllContent } = useAllContent();
   const { fetchUser } = useUserAuth();
 
-  const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const type = e.target.value;
-
+  const onSelectChange = (type: string) => {
     if (
       type === "link" ||
       type === "document" ||
@@ -37,8 +39,20 @@ const useContentForm = () => {
     }
   };
 
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, placeholder } = e.target;
+  const onInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    let { value, placeholder } = e.target;
+
+    if (placeholder !== "Title") {
+      placeholder = "Link";
+    }
+
+    if (value.includes("https://x.com/")) {
+      setContentForm((p) => ({ ...p, type: "tweet" }));
+    } else if (value.includes("https://youtu.be/")) {
+      setContentForm((p) => ({ ...p, type: "youtube" }));
+    }
     setContentForm((prev) => {
       return { ...prev, [placeholder.toLowerCase()]: value };
     });
@@ -57,8 +71,62 @@ const useContentForm = () => {
         onSubmit();
       } else if (!data?.success && data?.message === "Refresh Token Required") {
         fetchUser();
+      } else {
+        alert(data.data);
       }
       console.log(data);
+    }
+  };
+
+  const searchTags = async (tagInput: string) => {
+    try {
+      if (!tagInput) {
+        return;
+      }
+      setContentForm((prev) => ({ ...prev, loadingTags: true }));
+      const data: ResponseType = await searchTagsService(tagInput);
+      if (data.success) {
+        setContentForm((prev) => {
+          return {
+            ...prev,
+            tagOptions: data.data,
+          };
+        });
+      } else {
+        console.log(data);
+      }
+    } catch (data: any) {
+      if (data?.success) {
+        searchTags(tagInput);
+      } else if (!data?.success && data?.message === "Refresh Token Required") {
+        fetchUser();
+      } else {
+        console.log(data);
+      }
+    } finally {
+      setContentForm((prev) => ({ ...prev, loadingTags: false }));
+    }
+  };
+
+  const createTag = async (name: string) => {
+    try {
+      const data: ResponseType = await createTagService(name);
+      if (data.success) {
+        setContentForm((prev) => ({
+          ...prev,
+          selectedTags: [...prev.tags, data.data],
+        }));
+      } else {
+        console.log(data);
+      }
+    } catch (data: any) {
+      if (data?.success) {
+        createTag(name);
+      } else if (!data?.success && data?.message === "Refresh Token Required") {
+        fetchUser();
+      } else {
+        alert(data.data);
+      }
     }
   };
 
@@ -68,6 +136,8 @@ const useContentForm = () => {
     onSelectChange,
     onInputChange,
     onSubmit,
+    createTag,
+    searchTags,
   };
 };
 

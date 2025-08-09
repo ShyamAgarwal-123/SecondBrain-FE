@@ -8,6 +8,7 @@ export interface ResponseType {
 export interface TagType {
   _id: string;
   name: string;
+  createdAt: string;
 }
 export interface ContentType {
   _id: string;

@@ -1,7 +1,7 @@
 export type IconsTypes = "sm" | "md" | "lg" | "xl";
 export interface ClickableIcon extends IconsProps {
-  className: string;
-  onClick: () => void;
+  className?: string;
+  onClick?: () => void;
 }
 export interface IconsProps {
   size?: IconsTypes;

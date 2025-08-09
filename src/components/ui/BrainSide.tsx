@@ -105,6 +105,7 @@ const BrainSide = () => {
                   type={content.type as "tweet" | "youtube"}
                   title={content.title}
                   _id={content._id}
+                  tags={content.tags}
                 />
               ))}
           </div>

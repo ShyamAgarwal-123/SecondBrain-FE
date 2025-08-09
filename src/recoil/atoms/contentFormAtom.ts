@@ -1,19 +1,24 @@
 import { atom } from "recoil";
+import type { TagType } from "../../types";
 
 export type ContentFormStateType = {
   title: string;
   link: string;
   type: "link" | "youtube" | "tweet" | "document";
-  tags: string[];
   open: boolean;
+  tagOptions: TagType[];
+  tags: TagType[];
+  loadingTags: boolean;
 };
 
 export const defaultContentForm: ContentFormStateType = {
   title: "",
   link: "",
   type: "link",
-  tags: ["6871509e90e4e9181e89bddc"],
   open: false,
+  tagOptions: [],
+  tags: [],
+  loadingTags: true,
 };
 
 export const contentFormAtom = atom<ContentFormStateType>({

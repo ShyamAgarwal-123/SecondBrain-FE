@@ -5,7 +5,7 @@ import { signUpAtom, type SignUpAtomTypes } from "../recoil/atoms/signUpAtom";
 const useSignUp = () => {
   const [signUp, setSignUp] = useRecoilState<SignUpAtomTypes>(signUpAtom);
 
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
+  function onChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { placeholder, value } = e.target;
     setSignUp((prev) => ({
       ...prev,

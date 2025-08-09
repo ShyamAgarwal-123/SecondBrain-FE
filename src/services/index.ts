@@ -64,10 +64,12 @@ export const uploadContentService = async (
   contentForm: ContentFormStateType
 ) => {
   try {
-    const { data } = await axiosInstanceWithAuth.post(
-      "/content/create",
-      contentForm
-    );
+    const { data } = await axiosInstanceWithAuth.post("/content/create", {
+      title: contentForm.title,
+      link: contentForm.link,
+      type: contentForm.type,
+      tags: contentForm.tags.map((tag) => tag._id),
+    });
     return data;
   } catch (error) {
     const data: ResponseType = errorHandler(error);
@@ -112,6 +114,35 @@ export const shareBrainService = async (share: boolean) => {
 export const getAllShareBrainContentService = async (shareLink: string) => {
   try {
     const { data } = await axiosInstanceWithAuth.get(`/public/${shareLink}`);
+    return data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};
+
+export const getAllTagsService = async () => {
+  try {
+    const { data } = await axiosInstanceWithAuth.get("/tag/getAll");
+    return data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};
+
+export const createTagService = async (name: string) => {
+  try {
+    const { data } = await axiosInstanceWithAuth.post("/tag/create", {
+      name,
+    });
+    return data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};
+
+export const searchTagsService = async (query: string) => {
+  try {
+    const { data } = await axiosInstanceWithAuth.get(`/tag/search?q=${query}`);
     return data;
   } catch (error) {
     throw errorHandler(error);

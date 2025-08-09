@@ -2,7 +2,7 @@ import { type ClickableIcon } from ".";
 
 import { iconSizeVariants } from ".";
 
-const CrossIcon = ({ size = "sm", className, onClick }: ClickableIcon) => {
+const CrossIcon = ({ size = "sm", className = "", onClick }: ClickableIcon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

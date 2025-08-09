@@ -2,7 +2,10 @@ import type { CardProps } from "./Card";
 import TwitterView from "./TwitterView";
 import YoutubeView from "./YoutubeView";
 
-const ContentView = ({ type, link }: Omit<CardProps, "title" | "_id">) => {
+const ContentView = ({
+  type,
+  link,
+}: Omit<CardProps, "title" | "_id" | "tags">) => {
   return (
     <div>
       {type === "tweet" && <TwitterView link={link} />}

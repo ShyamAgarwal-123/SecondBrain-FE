@@ -3,10 +3,12 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from "react-router-dom";
+} from "react-router";
 import UserBrain from "./components/pages/UserBrain";
 import ShareBrain from "./components/pages/ShareBrain";
 import NotFoundPage from "./components/pages/NotFoundPage";
+import { useEffect } from "react";
+import useTags from "./hooks/useTags";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +21,10 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const { fetchAllTags } = useTags();
+  useEffect(() => {
+    fetchAllTags();
+  }, []);
   return <RouterProvider router={router} />;
 }
 

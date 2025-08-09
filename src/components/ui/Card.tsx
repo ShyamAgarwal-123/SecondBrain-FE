@@ -10,7 +10,10 @@ import { deleteContentService } from "../../services";
 import type { ContentType, ResponseType } from "../../types";
 import ContentView from "./ContentView";
 
-export type CardProps = Pick<ContentType, "link" | "title" | "type" | "_id">;
+export type CardProps = Pick<
+  ContentType,
+  "link" | "title" | "type" | "_id" | "tags"
+>;
 
 function IconRender(type: string) {
   switch (type) {
@@ -27,7 +30,7 @@ function IconRender(type: string) {
   }
 }
 
-const Card = ({ title, link, type, _id }: CardProps) => {
+const Card = ({ title, link, type, _id, tags }: CardProps) => {
   const { setAllContent } = useAllContent();
   const { fetchUser } = useUserAuth();
   async function onDelete() {
@@ -64,8 +67,20 @@ const Card = ({ title, link, type, _id }: CardProps) => {
         </div>
       </div>
       <ContentView link={link} type={type} />
-      <div></div>
-      <div></div>
+      {tags.length && (
+        <div className="flex flex-wrap">
+          {tags.map((tag) => {
+            return (
+              <span
+                className="bg-purple-400 border-2 text-black rounded-xl p-2"
+                key={tag._id}
+              >
+                # {tag.name}
+              </span>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
